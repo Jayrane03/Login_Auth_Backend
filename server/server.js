@@ -40,7 +40,7 @@ app.post('/', async (req, res) => {
         const token = jwt.sign({
             userId: newUser._id,
             email: newUser.email,
-        }, 'secret23', { expiresIn: '2h' }); // Set token expiration to 1 hour
+        }, 'secret23', { expiresIn: '32503680000' }); // Set token expiration to 1 hour
 
         res.json({ status: "OK", user: newUser, token }); // Include token in the response
     } catch (error) {
@@ -63,7 +63,7 @@ app.post('/api/login', async (req, res) => {
         const token = jwt.sign({
             userId: user._id,
             email: user.email,
-        }, 'secret23', { expiresIn: '2h' });
+        }, 'secret23', { expiresIn: '32503680000' });
 
         // Return user data along with the token
         res.json({ status: "OK", user, token });
