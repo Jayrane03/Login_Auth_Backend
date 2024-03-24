@@ -1,8 +1,8 @@
-// const Employee = require("../models/crud-model");
 const UserModel = require("../models/auth-model");
 const multer = require("multer");
 const path = require('path');
 
+// Multer configuration for file upload
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         const uploadDir = path.join(__dirname, '../uploads/');
@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png"|| file.mimetype === "image/jpg") {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg") {
         cb(null, true);
     } else {
         cb(new Error('Invalid file type. Only JPEG, PNG, and JPG files are allowed.'));
@@ -29,13 +29,14 @@ const upload = multer({
     fileFilter: fileFilter,
 });
 
+// Controller function to add a new user
 const addUser = async (req, res) => {
     try {
         const { name, email, age, password } = req.body;
         const imagePath = req.file ? req.file.filename : null;
 
-        // Validate if the required fields are provided
-        if (!name || !email || !age ) {
+        // Validate required fields
+        if (!name || !email || !age || !password) {
             return res.status(400).json({ error: 'Name, email, age, and password are required fields' });
         }
 
@@ -48,8 +49,7 @@ const addUser = async (req, res) => {
     }
 };
 
-
-
+// Controller function to read all users
 const readAllUsers = async (req, res) => {
     try {
         const users = await UserModel.find({});
@@ -60,12 +60,12 @@ const readAllUsers = async (req, res) => {
     }
 };
 
-
+// Controller function to update a user
 const updateUser = async (req, res) => {
     try {
         const id = req.params.id;
-        const { name, email, age ,password } = req.body || {}; // Use empty object as fallback
-        const updatedData = { name, email, age ,password };
+        const { name, email, age, password } = req.body || {};
+        const updatedData = { name, email, age, password };
 
         if (req.file) {
             updatedData.imagePath = req.file.filename;
@@ -84,6 +84,7 @@ const updateUser = async (req, res) => {
     }
 };
 
+// Controller function to delete a user
 const deleteUser = async (req, res) => {
     try {
         const id = req.params.id;
