@@ -39,7 +39,7 @@ const addUser = async (req, res) => {
             return res.status(400).json({ error: 'Name, email, age, and password are required fields' });
         }
 
-        const user = new Employee({ name, email, age, password, imagePath });
+        const user = new UserModel({ name, email, age, password, imagePath });
         const userData = await user.save();
         res.status(201).json(userData);
     } catch (error) {
